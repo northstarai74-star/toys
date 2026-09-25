@@ -2,7 +2,6 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { useCart } from "@/lib/cart";
 import { formatINR } from "@/lib/toys";
-import { createOrder, formatOrderForDatabase } from "@/lib/orders";
 
 export const Route = createFileRoute("/checkout")({
   head: () => ({
@@ -46,25 +45,7 @@ function CheckoutPage() {
 
       const orderId = `ORD-${Date.now()}`;
 
-      // Format order data for Supabase
-      const orderData = await formatOrderForDatabase(
-        orderId,
-        formData,
-        cart.items,
-        { subtotal, shipping, tax, total }
-      );
-
-      // Try to save to Supabase, but don't fail if it's not configured
-      try {
-        const savedOrder = await createOrder(orderData);
-        if (savedOrder) {
-          console.log("Order saved to Supabase");
-        }
-      } catch (supabaseError) {
-        console.warn("Supabase save failed, using localStorage only:", supabaseError);
-      }
-
-      // Always save to localStorage as backup/fallback
+      // Save order to localStorage
       localStorage.setItem(
         "last-order",
         JSON.stringify({
@@ -72,7 +53,10 @@ function CheckoutPage() {
           date: new Date().toISOString(),
           customer: formData,
           items: cart.items,
-          total: total,
+          subtotal,
+          shipping,
+          tax,
+          total,
         })
       );
 
