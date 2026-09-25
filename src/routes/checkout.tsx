@@ -54,14 +54,17 @@ function CheckoutPage() {
         { subtotal, shipping, tax, total }
       );
 
-      // Save to Supabase
-      const savedOrder = await createOrder(orderData);
-
-      if (!savedOrder) {
-        throw new Error("Failed to save order");
+      // Try to save to Supabase, but don't fail if it's not configured
+      try {
+        const savedOrder = await createOrder(orderData);
+        if (savedOrder) {
+          console.log("Order saved to Supabase");
+        }
+      } catch (supabaseError) {
+        console.warn("Supabase save failed, using localStorage only:", supabaseError);
       }
 
-      // Also save to localStorage as backup
+      // Always save to localStorage as backup/fallback
       localStorage.setItem(
         "last-order",
         JSON.stringify({

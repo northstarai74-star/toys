@@ -3,7 +3,11 @@ import { createClient } from "@supabase/supabase-js";
 const supabaseUrl = "https://dunljlmbrjrjctjqapsm.supabase.co";
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || "";
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+export const supabase = supabaseAnonKey
+  ? createClient(supabaseUrl, supabaseAnonKey)
+  : null;
+
+export const isSupabaseConfigured = !!supabaseAnonKey;
 
 export type Database = {
   public: {
