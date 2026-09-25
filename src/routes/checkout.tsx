@@ -25,6 +25,7 @@ function CheckoutPage() {
     pincode: "",
   });
 
+  const [paymentMethod, setPaymentMethod] = useState("card");
   const [isProcessing, setIsProcessing] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -57,6 +58,7 @@ function CheckoutPage() {
           shipping,
           tax,
           total,
+          paymentMethod,
         })
       );
 
@@ -289,12 +291,95 @@ function CheckoutPage() {
                   </div>
                 </div>
 
+                <div>
+                  <h2 className="font-display text-lg font-semibold text-ink">Payment Method</h2>
+                  <p className="mt-1 text-sm text-ink-soft">Choose how you'd like to pay</p>
+
+                  <div className="mt-4 space-y-3">
+                    {/* Credit/Debit Card */}
+                    <label className="flex cursor-pointer items-start gap-4 rounded-lg border-2 border-line p-4 transition-all hover:bg-cream-deep" style={{ borderColor: paymentMethod === 'card' ? 'var(--color-clay)' : 'var(--color-line)' }}>
+                      <input
+                        type="radio"
+                        name="payment"
+                        value="card"
+                        checked={paymentMethod === "card"}
+                        onChange={(e) => setPaymentMethod(e.target.value)}
+                        className="mt-1"
+                      />
+                      <div className="flex-1">
+                        <p className="font-medium text-ink">Credit / Debit Card</p>
+                        <p className="mt-1 text-xs text-ink-soft">Visa, Mastercard, RuPay</p>
+                      </div>
+                      <svg className="h-6 w-6 text-clay" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v13m0-13V6a2 2 0 012-2h6a2 2 0 012 2v15m-9 0h6" />
+                      </svg>
+                    </label>
+
+                    {/* UPI */}
+                    <label className="flex cursor-pointer items-start gap-4 rounded-lg border-2 border-line p-4 transition-all hover:bg-cream-deep" style={{ borderColor: paymentMethod === 'upi' ? 'var(--color-clay)' : 'var(--color-line)' }}>
+                      <input
+                        type="radio"
+                        name="payment"
+                        value="upi"
+                        checked={paymentMethod === "upi"}
+                        onChange={(e) => setPaymentMethod(e.target.value)}
+                        className="mt-1"
+                      />
+                      <div className="flex-1">
+                        <p className="font-medium text-ink">UPI</p>
+                        <p className="mt-1 text-xs text-ink-soft">Google Pay, PhonePe, Paytm</p>
+                      </div>
+                      <svg className="h-6 w-6 text-clay" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </label>
+
+                    {/* Net Banking */}
+                    <label className="flex cursor-pointer items-start gap-4 rounded-lg border-2 border-line p-4 transition-all hover:bg-cream-deep" style={{ borderColor: paymentMethod === 'netbanking' ? 'var(--color-clay)' : 'var(--color-line)' }}>
+                      <input
+                        type="radio"
+                        name="payment"
+                        value="netbanking"
+                        checked={paymentMethod === "netbanking"}
+                        onChange={(e) => setPaymentMethod(e.target.value)}
+                        className="mt-1"
+                      />
+                      <div className="flex-1">
+                        <p className="font-medium text-ink">Net Banking</p>
+                        <p className="mt-1 text-xs text-ink-soft">All major banks supported</p>
+                      </div>
+                      <svg className="h-6 w-6 text-clay" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </label>
+
+                    {/* Wallet */}
+                    <label className="flex cursor-pointer items-start gap-4 rounded-lg border-2 border-line p-4 transition-all hover:bg-cream-deep" style={{ borderColor: paymentMethod === 'wallet' ? 'var(--color-clay)' : 'var(--color-line)' }}>
+                      <input
+                        type="radio"
+                        name="payment"
+                        value="wallet"
+                        checked={paymentMethod === "wallet"}
+                        onChange={(e) => setPaymentMethod(e.target.value)}
+                        className="mt-1"
+                      />
+                      <div className="flex-1">
+                        <p className="font-medium text-ink">Digital Wallet</p>
+                        <p className="mt-1 text-xs text-ink-soft">Amazon Pay, Apple Pay</p>
+                      </div>
+                      <svg className="h-6 w-6 text-clay" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h10m4 0a1 1 0 11-2 0 1 1 0 012 0z" />
+                      </svg>
+                    </label>
+                  </div>
+                </div>
+
                 <button
                   type="submit"
                   disabled={isProcessing}
                   className="w-full rounded-full bg-clay px-6 py-3 text-sm font-semibold text-primary-foreground ring-1 ring-clay transition-colors hover:bg-clay-deep disabled:opacity-50"
                 >
-                  {isProcessing ? "Processing order..." : "Place order"}
+                  {isProcessing ? "Processing order..." : `Pay ${formatINR(total)} with ${paymentMethod.charAt(0).toUpperCase() + paymentMethod.slice(1)}`}
                 </button>
               </form>
 

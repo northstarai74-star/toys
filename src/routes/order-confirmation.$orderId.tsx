@@ -53,7 +53,8 @@ function OrderConfirmationPage() {
               status: "processing",
               created_at: new Date().toISOString(),
               updated_at: new Date().toISOString(),
-            });
+              payment_method: orderData.paymentMethod || "card",
+            } as any);
           }
         }
       } catch (error) {
@@ -143,6 +144,14 @@ function OrderConfirmationPage() {
                   month: "short",
                   day: "numeric",
                 })}
+              </p>
+            </div>
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.14em] text-ink-soft">
+                Payment method
+              </p>
+              <p className="mt-1 font-display text-lg font-semibold text-ink capitalize">
+                {(order as any).payment_method ? (order as any).payment_method.replace(/([A-Z])/g, ' $1').trim() : "Card"}
               </p>
             </div>
             <div className="sm:col-span-2">
