@@ -1,0 +1,173 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Design system — "Curated Shelf"
+ * Warm boutique editorial: cream paper, ink brown, terracotta, sage, butter.
+ * All colors in oklch. Fonts: Fraunces (display serif) + Karla (body).
+ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+
+  --font-display: "Fraunces", "Georgia", serif;
+  --font-body: "Karla", "System UI", sans-serif;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Brand palette */
+  --color-cream: var(--cream);
+  --color-cream-deep: var(--cream-deep);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-clay: var(--clay);
+  --color-clay-deep: var(--clay-deep);
+  --color-sage: var(--sage);
+  --color-butter: var(--butter);
+  --color-line: var(--line);
+}
+
+:root {
+  --radius: 1rem;
+
+  --cream: oklch(0.975 0.013 88);
+  --cream-deep: oklch(0.945 0.024 84);
+  --ink: oklch(0.25 0.022 60);
+  --ink-soft: oklch(0.49 0.033 62);
+  --clay: oklch(0.58 0.142 40);
+  --clay-deep: oklch(0.5 0.143 38);
+  --sage: oklch(0.585 0.052 122);
+  --butter: oklch(0.78 0.105 84);
+  --line: oklch(0.9 0.032 84);
+
+  --background: var(--cream);
+  --foreground: var(--ink);
+  --card: oklch(1 0 0);
+  --card-foreground: var(--ink);
+  --popover: oklch(1 0 0);
+  --popover-foreground: var(--ink);
+  --primary: var(--clay);
+  --primary-foreground: oklch(0.975 0.013 88);
+  --secondary: var(--cream-deep);
+  --secondary-foreground: var(--ink);
+  --muted: var(--cream-deep);
+  --muted-foreground: var(--ink-soft);
+  --accent: var(--cream-deep);
+  --accent-foreground: var(--ink);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.984 0.003 247.858);
+  --border: var(--line);
+  --input: var(--line);
+  --ring: var(--clay);
+}
+
+.dark {
+  /* The storefront ships light-only; tokens kept for shadcn compatibility. */
+  --background: oklch(0.25 0.022 60);
+  --foreground: oklch(0.975 0.013 88);
+  --card: oklch(0.3 0.025 60);
+  --card-foreground: oklch(0.975 0.013 88);
+  --popover: oklch(0.3 0.025 60);
+  --popover-foreground: oklch(0.975 0.013 88);
+  --primary: var(--butter);
+  --primary-foreground: oklch(0.25 0.022 60);
+  --secondary: oklch(0.32 0.026 60);
+  --secondary-foreground: oklch(0.975 0.013 88);
+  --muted: oklch(0.32 0.026 60);
+  --muted-foreground: oklch(0.72 0.03 62);
+  --accent: oklch(0.32 0.026 60);
+  --accent-foreground: oklch(0.975 0.013 88);
+  --destructive: oklch(0.704 0.191 22.216);
+  --destructive-foreground: oklch(0.984 0.003 247.858);
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 16%);
+  --ring: var(--butter);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background-color: color-mix(in oklch, var(--clay) 22%, transparent);
+  }
+}
+
+@layer components {
+  .eyebrow {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--clay);
+  }
+
+  .floaty {
+    animation: floaty 7s ease-in-out infinite;
+  }
+  .floaty-slow {
+    animation: floaty 9s ease-in-out infinite;
+  }
+  @keyframes floaty {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-7px);
+    }
+  }
+
+  .rise {
+    animation: rise 0.7s cubic-bezier(0.32, 0.72, 0, 1) both;
+  }
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
